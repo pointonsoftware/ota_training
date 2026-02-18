@@ -82,7 +82,7 @@ export const loginService = {
   /**
    * Get current user
    */
-  getCurrentUser: (): any => {
+  getCurrentUser: (): any | null => {
     // TODO: Students implement this
     // const userStr = localStorage.getItem('user');
     // return userStr ? JSON.parse(userStr) : null;

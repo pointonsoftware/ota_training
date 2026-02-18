@@ -62,6 +62,7 @@ export class JwtAuthGuard implements CanActivate {
     //   throw new UnauthorizedException('Invalid token');
     // }
     
-    throw new Error('JwtAuthGuard not implemented. Students should implement this.');
+    // For now, return false so students must implement this
+    throw new UnauthorizedException('JwtAuthGuard not implemented. Students should implement this.');
   }
 }

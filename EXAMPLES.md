@@ -74,10 +74,10 @@ export class LoginService {
     };
   }
 
-  private async findUserByEmail(email: string): Promise<any> {
+  private async findUserByEmail(email: string): Promise<any | null> {
     // In production, this would be a database query
     // Example: return await this.userRepository.findOne({ where: { email } });
-    return this.mockUsers.find(user => user.email === email);
+    return this.mockUsers.find(user => user.email === email) || null;
   }
 
   private async validatePassword(
@@ -249,7 +249,7 @@ export const loginService = {
     return !!token;
   },
 
-  getCurrentUser: (): any => {
+  getCurrentUser: (): any | null => {
     const userStr = localStorage.getItem('user');
     return userStr ? JSON.parse(userStr) : null;
   },

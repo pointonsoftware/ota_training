@@ -52,7 +52,7 @@ export class LoginService {
    * @param email - User email
    * @returns User object or null
    */
-  private async findUserByEmail(email: string): Promise<any> {
+  private async findUserByEmail(email: string): Promise<any | null> {
     // TODO: Implement user lookup
     // Mock data example:
     // const mockUsers = [
@@ -63,6 +63,7 @@ export class LoginService {
     //     name: 'Test Student'
     //   }
     // ];
+    // return mockUsers.find(user => user.email === email) || null;
     return null;
   }
 
