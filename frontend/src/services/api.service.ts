@@ -42,6 +42,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // TODO: Students implement token attachment
+    // Get token directly from localStorage (avoid circular dependencies)
     // const token = localStorage.getItem('accessToken');
     // if (token) {
     //   config.headers.Authorization = `Bearer ${token}`;
@@ -62,6 +63,7 @@ apiClient.interceptors.response.use(
     // TODO: Students implement error handling
     // if (error.response?.status === 401) {
     //   localStorage.removeItem('accessToken');
+    //   localStorage.removeItem('user');
     //   window.location.href = '/login';
     // }
     return Promise.reject(error);

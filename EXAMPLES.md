@@ -266,7 +266,6 @@ export const loginService = {
 // frontend/src/services/api.service.ts
 
 import axios from 'axios';
-import { loginService } from './login.service';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
@@ -280,7 +279,8 @@ const apiClient = axios.create({
 // Request interceptor - Attach token to every request
 apiClient.interceptors.request.use(
   (config) => {
-    const token = loginService.getToken();
+    // Get token directly from localStorage to avoid circular dependency
+    const token = localStorage.getItem('accessToken');
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -301,7 +301,9 @@ apiClient.interceptors.response.use(
   (error) => {
     // Handle 401 Unauthorized - redirect to login
     if (error.response?.status === 401) {
-      loginService.logout();
+      // Clear credentials and redirect
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
       window.location.href = '/login';
     }
 
