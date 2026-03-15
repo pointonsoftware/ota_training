@@ -18,13 +18,74 @@
  * - Use the native `fetch` API or install `axios` to make the HTTP request.
  */
 
-function LoginPage() {
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await axios.post("http://localhost:3000/auth/login", {
+        username,
+        password,
+      });
+
+      const token = response.data.accessToken;
+
+      localStorage.setItem("accessToken", token);
+
+      navigate("/dashboard");
+
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        setError("Invalid username or password");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    }
+  };
+
+  const isDisabled = username === "" || password === "";
+
   return (
-    <div>
-      <h1>Login</h1>
-      <p>TODO: Implement the login form here.</p>
+
+
+    <div className="login-container flex flex-col items-center justify-center min-h-screen bg-gray-100">
+       
+      <form className="login-card" onSubmit={handleLogin}>
+        <h2>Sign In</h2>
+
+        <input
+          className="bg=red"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button type="submit" disabled={isDisabled}>
+          Sign In
+        </button>
+
+        {error && <h1 className="error">{error}</h1>}
+      </form>
     </div>
+       
   );
 }
-
-export default LoginPage;
